@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: flaskdemo
-        image: audidrees/3-tier-ap:v1
+        image: daudidrees/3-tier-ap:v1
         ports:
         - containerPort: 5000  # Expose the port your Flask app listens on
         resources: {}
