@@ -14,5 +14,5 @@ pipelines:
               --platform linux/amd64,linux/arm64 \
               --file ./Dockerfile \
               --push \
-              --tag devopswithsam/argodemo:latest \
-              --tag devopswithsam/argodemo:${BITBUCKET_BUILD_NUMBER} .
+              --tag daudidrees/3-tier-ap:v1 \
+              --tag daudidrees/3-tier-ap:${BITBUCKET_BUILD_NUMBER} .
