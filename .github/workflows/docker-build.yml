@@ -2,8 +2,8 @@ name: Build and Deploy
 
 on:
   push:
-    paths:
-      - "**" # Runs only when there are changes in the repository files
+    branches:
+      - main
 
 jobs:
   build-and-push-docker-image:
@@ -32,8 +32,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          repository: Daudkhan1/cd-cd-gitops
+
+      - name: Skip workflow if triggered by Actions
+        run: |
+          if [[ "$(git log -1 --pretty=%an)" == "github-actions[bot]" ]]; then
+            echo "Skipping workflow as it was triggered by a bot commit."
+            exit 0
+          fi
 
       - name: Update deployment manifest
         run: |
