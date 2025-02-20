@@ -16,3 +16,15 @@ pipelines:
               --push \
               --tag daudidrees/3-tier-ap:v1 \
               --tag daudidrees/3-tier-ap:${BITBUCKET_BUILD_NUMBER} .
+    - step:
+        name: Update and Push Deployment Manifest
+        image: alpine/git
+        script:
+          - git clone https://daudkhan37:${APP_PASSWORD}@bitbucket.org/my-devops-world/cd-cd-gitops.git
+          - cd cd-cd-gitops
+          - sed -i "s/3-tier-ap:[0-9]*\|3-tier-ap:v1/3-tier-ap:${BITBUCKET_BUILD_NUMBER}/" deployment.yml
+          - git config --global user.email "jhonsdavid37@gmail.com"
+          - git config --global user.name "daudkhan37 "
+          - git add deployment.yml
+          - git commit -m "Update deployment.yml with build ${BITBUCKET_BUILD_NUMBER}"
+          - git push origin main

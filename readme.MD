@@ -5,3 +5,6 @@ git remote set-url origin https://daudkhan37:ATBBQszKx3bNqdGsxCuseYtfr66kFB9EB64
 
 DOCKER_USERNAME: daudidrees
 DOCKER_PASSWORD (PAT): dckr_pat_ifXBq3RXFHCyIpW0a4X4INia21Q
+
+bitbucket-app password
+ATBBQszKx3bNqdGsxCuseYtfr66kFB9EB648
