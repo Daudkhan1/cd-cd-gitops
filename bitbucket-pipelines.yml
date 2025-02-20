@@ -7,14 +7,15 @@ pipelines:
           - docker
         script:
           - export IMAGE_NAME=daudidrees/3-tier-ap:${BITBUCKET_COMMIT}
+          # Disable BuildKit
+          - export DOCKER_BUILDKIT=0
           # Build the Docker image
           - docker build -t $IMAGE_NAME .
           # Log in to Docker Hub
           - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           # Push the Docker image
           - docker push $IMAGE_NAME
-        artifacts:
-          - image.tar # Optional: Export built image if needed locally
+
     - step:
         name: Update and Push Deployment Manifest
         image: alpine/git
