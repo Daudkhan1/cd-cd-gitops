@@ -1,0 +1,18 @@
+pipelines:
+  default:
+    - step:
+        name: Build and Push Docker Image
+        image: docker:23.0.1
+        services:
+          - docker
+        script:
+          - apk add --no-cache curl git
+          - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          - docker buildx create --use
+          - docker buildx inspect --bootstrap
+          - docker buildx build \
+              --platform linux/amd64,linux/arm64 \
+              --file ./Dockerfile \
+              --push \
+              --tag devopswithsam/argodemo:latest \
+              --tag devopswithsam/argodemo:${BITBUCKET_BUILD_NUMBER} .
