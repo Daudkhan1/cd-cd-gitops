@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: flaskdemo
-        image: daudidrees/githubaction-flask:848f8ec0818a7c9bc7c8ebc402d6a9c7adfefa82
+        image: daudidrees/githubaction-flask:63cc3cd11dcada56c5b0e58a8f129a9ea9278898
         ports:
         - containerPort: 5000  # Expose the port your Flask app listens on
         resources: {}
