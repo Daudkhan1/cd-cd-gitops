@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          export IMAGE_NAME=daudidrees/3-tier-ap:${{ github.sha }}
+          export IMAGE_NAME=daudidrees/gihubaction-flask:${{ github.sha }}
           # Build Docker image
           docker build -t $IMAGE_NAME .
           # Push Docker image
