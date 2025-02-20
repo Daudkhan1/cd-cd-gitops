@@ -8,9 +8,12 @@ pipelines:
         script:
           - apk add --no-cache curl git
           - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          - docker buildx create --use
-          - docker buildx inspect --bootstrap
-          - docker buildx build --platform linux/amd64,linux/arm64 --file ./Dockerfile --push --tag daudidrees/3-tier-ap:v1 --tag daudidrees/3-tier-ap:${BITBUCKET_BUILD_NUMBER} .
+          - docker build \
+              --file ./Dockerfile \
+              --tag daudidrees/3-tier-ap:v1 \
+              --tag daudidrees/3-tier-ap:${BITBUCKET_BUILD_NUMBER} .
+          - docker push daudidrees/3-tier-ap:v1
+          - docker push daudidrees/3-tier-ap:${BITBUCKET_BUILD_NUMBER}
     - step:
         name: Update and Push Deployment Manifest
         image: alpine/git
