@@ -1,9 +1,11 @@
 name: Build and Deploy
 
-on: 
+on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'deployment.yml'
 
 jobs:
   build-and-push-docker-image:
