@@ -1,9 +1,12 @@
 name: Build and Deploy
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      docker_tag:
+        description: 'Tag for the Docker image'
+        required: true
+        default: 'v1'
 
 jobs:
   build-and-push-docker-image:
@@ -21,8 +24,10 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          export IMAGE_NAME=daudidrees/githubaction-flask:${{ github.sha }}
+          export IMAGE_NAME=daudidrees/githubaction-flask:${{ github.event.inputs.docker_tag }}
+          # Build Docker image
           docker build -t $IMAGE_NAME .
+          # Push Docker image
           docker push $IMAGE_NAME
 
   update-and-push-deployment-manifest:
@@ -33,20 +38,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Skip workflow if triggered by Actions
-        run: |
-          if [[ "$(git log -1 --pretty=%an)" == "github-actions[bot]" ]]; then
-            echo "Skipping workflow as it was triggered by a bot commit."
-            exit 0
-          fi
-
       - name: Update deployment manifest
         run: |
           git clone https://github.com/Daudkhan1/cd-cd-gitops.git
           cd cd-cd-gitops
-          sed -i "s/3-tier-ap:[0-9]*\|3-tier-ap:v1/3-tier-ap:${{ github.run_number }}/" deployment.yml
+          sed -i "s|daudidrees/3-tier-ap:[0-9]*\|daudidrees/3-tier-ap:v[0-9]*|daudidrees/githubaction-flask:${{ github.event.inputs.docker_tag }}|" deployment.yml
+
+          # Check for changes before committing
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
           git config --global user.email "daudidrees1024@gmail.com"
           git config --global user.name "Daudkhan1"
           git add deployment.yml
-          git commit -m "Update deployment.yml with build ${{ github.run_number }}"
+          git commit -m "Update deployment.yml with tag ${{ github.event.inputs.docker_tag }}"
           git push https://${{ secrets.GH_PAT }}@github.com/Daudkhan1/cd-cd-gitops.git main
