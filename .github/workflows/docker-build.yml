@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          export IMAGE_NAME=daudidrees/githubaction-flask:
+          export IMAGE_NAME=daudidrees/githubaction-flask:${{ github.sha }}
           docker build -t $IMAGE_NAME .
           docker push $IMAGE_NAME
 
