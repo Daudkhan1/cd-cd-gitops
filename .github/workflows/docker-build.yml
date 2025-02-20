@@ -39,7 +39,7 @@ jobs:
 
       - name: Update deployment manifest
         run: |
-          cd cd-cd-gitops
+          cd github-action/cd-cd-gitops
           sed -i "s/3-tier-ap:[0-9]*\|3-tier-ap:v1/3-tier-ap:${{ github.run_number }}/" deployment.yml
           git config --global user.email "jhonsdavid37@gmail.com"
           git config --global user.name "daudkhan37"
