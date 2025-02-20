@@ -2,11 +2,19 @@ pipelines:
   default:
     - step:
         name: Build and Push Docker Image
+        image: docker:23.0.1
+        services:
+          - docker
         script:
-        - export IMAGE_NAME=daudidrees/3-tier-ap:$BITBUCKET_COMMIT
-        - docker build -t $IMAGE_NAME .
-        - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        - docker push $IMAGE_NAME
+          - export IMAGE_NAME=daudidrees/3-tier-ap:${BITBUCKET_COMMIT}
+          # Build the Docker image
+          - docker build -t $IMAGE_NAME .
+          # Log in to Docker Hub
+          - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          # Push the Docker image
+          - docker push $IMAGE_NAME
+        artifacts:
+          - image.tar # Optional: Export built image if needed locally
     - step:
         name: Update and Push Deployment Manifest
         image: alpine/git
