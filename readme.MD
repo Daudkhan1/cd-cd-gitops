@@ -8,3 +8,5 @@ DOCKER_PASSWORD (PAT): dckr_pat_i6nuo381llXukyh7TL8ME5RHjB0
 
 bitbucket-app password
 ATBBQszKx3bNqdGsxCuseYtfr66kFB9EB648
+
+Argocd password: ezMP1Vbqn4aKi9tw
