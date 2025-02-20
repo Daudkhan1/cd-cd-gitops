@@ -15,7 +15,8 @@ pipelines:
               --file ./Dockerfile \
               --push \
               --tag daudidrees/3-tier-ap:v1 \
-              --tag daudidrees/3-tier-ap:${BITBUCKET_BUILD_NUMBER} .
+              --tag daudidrees/3-tier-ap:${BITBUCKET_BUILD_NUMBER} \
+              .
     - step:
         name: Update and Push Deployment Manifest
         image: alpine/git
